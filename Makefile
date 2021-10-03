@@ -1,8 +1,9 @@
 NAME = libftprintf.a
-SRC =
+SRC = ft_printf.c\
 BONUS =
 SRC_O	=	$(SRC:.c=.o)
 BONUS_O =	$(BONUS:.c=.o)
+INCLUDES = ft_printf.h
 CC	=	gcc
 CFLAGS	=	-Werror -Wextra -Wall                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
 LIB	= ar rc
