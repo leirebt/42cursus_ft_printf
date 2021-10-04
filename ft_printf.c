@@ -1,6 +1,10 @@
 #include<stdio.h>
 #include"ft_printf.h"
 
+void ft_print_u(unsigned int number)
+{
+	
+}
 int print_args(char type, va_list args)
 {
     int count;
@@ -24,13 +28,20 @@ int print_args(char type, va_list args)
         ft_putstr_fd(string, 1);
         return(ft_strlen(string));
     }
-    if(type == 'i')
+    if(type == 'i' || type == 'd')
     {
         number = va_arg(args, int);
         ft_putnbr_fd(number, 1);
         string = ft_itoa(number);
         return(ft_strlen(string));
     }
+	if(type == 'u')
+	{
+		number = va_arg(args, unsigned int);
+		ft_print_u(number);
+		string = ft_itoa(number);
+		return(ft_strlen(string));
+	}
 	return(0);
 }
 
@@ -42,6 +53,7 @@ int ft_printf(const char *str, ...)
     int i;
     
     i = 0;
+	len = 0;
     // Asigno al puntero str el primer arg de la lista de args.
     va_start(args, str);
     // Mientras str no acabe pinta la posición y pasa a la siguiente.
@@ -50,23 +62,13 @@ int ft_printf(const char *str, ...)
         // Si encuentra un '%' entra y suma 1.
         if(str[i] == '%')
         {
-            i++;
             // Envía el puntero y los args a imprimir.
-            len = len + print_args(*str, args);
-        }
-        write(1, &str[i], 1);
-        i++;
-        len++;
+            len = len + print_args(str[++i], args);
+        } 
+		else 
+        	len += write(1, &str[i], 1);
+		i++;
     }
     return(len);
 }
 
-int main(void)
-{
-    char    letraUno;
- //   char    letraDos;
-
-    letraUno = 'j';
- //   letraDos = 'y';
-    ft_printf("hola que tal %% me llamo %%", letraUno);
-}
