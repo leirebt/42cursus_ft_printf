@@ -6,7 +6,7 @@
 /*   By: lbarture <lbarture@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 18:53:16 by lbarture          #+#    #+#             */
-/*   Updated: 2021/10/06 21:05:00 by lbarture         ###   ########.fr       */
+/*   Updated: 2021/10/06 21:11:37 by lbarture         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,14 @@
 
 int ft_print_p(int *array)
 	// Esto no me sirve porque necsito hacer la recursiva sobre todo el array. Darle una vuelta.
+	// Solo pinta la base en minúsculas.
 {
 	static int  len;
      char    *base16_x;
 	static int	count;
-//     char    *base16_X;
 
      base16_x = "0123456789abcdef";
 	 count = 0;
- //    base16_X = "0123456789ABCDEF";
       if (!len)
           len = 0;
       if (array[count] > 9)
@@ -32,8 +31,6 @@ int ft_print_p(int *array)
          ft_putchar_fd(base16_x[array[count]] % 16], 1);
       len++;
 	  count++;
-//      else if (type == 'X')
-//          ft_putchar_fd(base16_X[number % 16], 1);
       return(len);
 }
 
