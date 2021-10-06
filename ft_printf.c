@@ -1,15 +1,79 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lbarture <lbarture@student.42urduliz.com>  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/10/06 18:53:16 by lbarture          #+#    #+#             */
+/*   Updated: 2021/10/06 21:05:00 by lbarture         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include<stdio.h>
 #include"ft_printf.h"
 
-void ft_print_u(unsigned int number)
+int ft_print_p(int *array)
+	// Esto no me sirve porque necsito hacer la recursiva sobre todo el array. Darle una vuelta.
 {
-	
+	static int  len;
+     char    *base16_x;
+	static int	count;
+//     char    *base16_X;
+
+     base16_x = "0123456789abcdef";
+	 count = 0;
+ //    base16_X = "0123456789ABCDEF";
+      if (!len)
+          len = 0;
+      if (array[count] > 9)
+          ft_print_p(array[count] / 16, type);
+      if(type == 'x')
+         ft_putchar_fd(base16_x[array[count]] % 16], 1);
+      len++;
+	  count++;
+//      else if (type == 'X')
+//          ft_putchar_fd(base16_X[number % 16], 1);
+      return(len);
+}
+
+int ft_print_xX(int number, char type)
+{
+	static int  len;
+	char	*base16_x;
+	char	*base16_X;
+
+	base16_x = "0123456789abcdef";
+	base16_X = "0123456789ABCDEF";
+     if (!len)
+         len = 0;
+     if (number > 9)
+         ft_print_xX(number / 16, type);
+     len++;
+	 if(type == 'x')
+     	ft_putchar_fd(base16_x[number % 16], 1);
+	 else if (type == 'X')
+		 ft_putchar_fd(base16_X[number % 16], 1);
+     return(len);
+}
+
+int ft_print_u(unsigned int number)
+{
+	static int	len;
+
+	if (!len)
+		len = 0;
+	if (number > 9)
+		ft_print_u(number / 10);
+	len++;
+	ft_putchar_fd((number % 10) + '0', 1);
+	return(len);
 }
 int print_args(char type, va_list args)
 {
     int count;
     int number;
-    char    *string;
+    int    *array;
 
     count = 0;
     if (type == '%')
@@ -38,9 +102,20 @@ int print_args(char type, va_list args)
 	if(type == 'u')
 	{
 		number = va_arg(args, unsigned int);
-		ft_print_u(number);
-		string = ft_itoa(number);
-		return(ft_strlen(string));
+		return(ft_print_u(number));
+	}
+	if(type == 'x' || type == 'X')
+	{
+		number = va_arg(args, int);
+		return(ft_print_xX(number, type));
+	}
+	if(type == 'p')
+	{
+		int	count;
+
+		count = 0;
+		array = va_arg(args, int);
+		return(ft_print_p(array));
 	}
 	return(0);
 }
@@ -69,6 +144,7 @@ int ft_printf(const char *str, ...)
         	len += write(1, &str[i], 1);
 		i++;
     }
+	va_end(str);
     return(len);
 }
 
