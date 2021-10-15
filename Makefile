@@ -1,6 +1,8 @@
 NAME = libftprintf.a
-SRC = ft_printf.c
-SRC_O	=	$(SRC:.c=.o)
+SRC = ft_printf.c\
+	  ft_print.c\
+	  ft_count_write.c
+SRC_O	= $(SRC:.c=.o)
 INCLUDES = ft_printf.h
 CC	=	gcc
 CFLAGS	=	-Werror -Wextra -Wall
@@ -8,11 +10,11 @@ LIB	= ar rc
 
 all	:	$(NAME)
 
-$(NAME)	:	$(SRC_O)
+$(NAME)	: $(SRC_O)
 	$(MAKE) -C libft
 	cp libft/libft.a .
 	mv libft.a $(NAME)
-	$(LIB) $@ $<
+	$(LIB) $(NAME) $(SRC_O)
 
 %.o	:	%.c ft_printf.h
 	$(CC) $(CFLAGS) -c $<
